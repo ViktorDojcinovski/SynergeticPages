@@ -37,6 +37,7 @@ app.all("*", (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+  console.log("Starting up auth service...");
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined");
   }
