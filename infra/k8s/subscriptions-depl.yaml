@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscriptions-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriptions
+  template:
+    metadata:
+      labels:
+        app: subscriptions
+    spec:
+      containers:
+        - name: subscriptions
+          image: viktordojchinovski/subscriptions
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: "nats://nats-srv:4222"
+            - name: MONGO_URI
+              value: "mongodb://subscriptions-mongo-srv:27017/subscriptions"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: subscriptions-srv
+spec:
+  selector:
+    app: subscriptions
+  ports:
+    - name: subscriptions
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

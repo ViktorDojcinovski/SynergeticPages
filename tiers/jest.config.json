@@ -1,0 +1,7 @@
+{
+  "extensionsToTreatAsEsm": [".ts"],
+  "transform": {
+    "^.+\\.tsx?$": "babel-jest"
+  },
+  "setupFilesAfterEnv": ["./src/test/setupTests.ts"]
+}

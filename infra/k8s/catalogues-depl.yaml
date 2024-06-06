@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogues-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogues
+  template:
+    metadata:
+      labels:
+        app: catalogues
+    spec:
+      containers:
+        - name: catalogues
+          image: viktordojchinovski/catalogues
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: "nats://nats-srv:4222"
+            - name: MONGO_URI
+              value: "mongodb://catalogues-mongo-srv:27017/catalogues"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogues-srv
+spec:
+  selector:
+    app: catalogues
+  ports:
+    - name: catalogues
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

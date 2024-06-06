@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    spec.ingressClassName: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: synergeticpages.dev
+      http:
+        paths:
+          - path: /api/users/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /api/catalogues/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: catalogues-srv
+                port:
+                  number: 3000
+          - path: /api/subscriptions/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: subscriptions-srv
+                port:
+                  number: 3000
+          - path: /api/tiers/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tiers-srv
+                port:
+                  number: 3000
+          - path: /api/payments/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: payments-srv
+                port:
+                  number: 3000
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
