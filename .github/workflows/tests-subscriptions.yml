@@ -1,6 +1,9 @@
 name: tests-subscrpitions
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - "subscriptions/**"
 
 jobs:
   build:
