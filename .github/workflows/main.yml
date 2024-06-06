@@ -1,13 +1,13 @@
-name: tests-catalogues
+name: tests
 
 on:
   pull_request:
     paths:
-      - "catalogues/**"
+      - "auth/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd catalogues && npm install && npm run test:ci
+      - run: cd auth && npm install && npm run test:ci
