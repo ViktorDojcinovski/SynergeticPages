@@ -20,6 +20,7 @@ router.post(
   [body("token").not().isEmpty(), body("subscriptionId").not().isEmpty()],
   validateRequest,
   async (req: Request, res: Response) => {
+    console.log("Creating charge");
     const { token, subscriptionId } = req.body;
 
     const subscription = await Subscription.findById(subscriptionId);

@@ -22,5 +22,7 @@ spec:
                   fieldPath: metadata.name
             - name: NATS_URL
               value: "nats://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: synergeticpages
             - name: MONGO_URI
               value: "mongodb://expiration-mongo-srv:27017/subscriptions"
